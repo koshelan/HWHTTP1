@@ -22,7 +22,9 @@ public class Main {
         try (CloseableHttpResponse response = httpClient.execute(request)) {
             List<CatFact> catFacts = mapper.readValue(response.getEntity().getContent(),
                     mapper.getTypeFactory().constructCollectionType(List.class, CatFact.class));
-            catFacts.stream().filter(x -> x.getUpvotes() == null).forEach(System.out::println);
+            catFacts.stream().filter(x -> x.getUpvotes() != null)
+                    .filter(x -> x.getUpvotes() > 0)
+                    .forEach(System.out::println);
         }
     }
 
